@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT || 5001; 
 
-app.get("/api", (req, res) => {
+app.get("/", (req, res) => {
 	res.send("Hello World");
 });
 

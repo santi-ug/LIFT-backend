@@ -12,7 +12,7 @@ const sequelize = new Sequelize(
     }
 ); 
 
-sequelize.sync(); 
 setupModels(sequelize); 
+const models = sequelize.models;
 
-export default sequelize;
+export default models;
