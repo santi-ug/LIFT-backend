@@ -1,14 +1,54 @@
 import UserService from '../services/user.service.js';
+import bcrypt from 'bcryptjs';
 
 const service = new UserService();
 
 export const create = async( req, res ) => {
     try{
         const { name, email, password } = req.body;
-        const response = await service.create(req.body);
-        res.json({ success: true, data: response});
+        
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required: name, email, password."
+            });
+        }
+
+        const response = await service.create({ name, email, password });
+        res.status(201).json({ success: true, data: response});
     }catch (error){
-        res.status(500).send({ success: false, message: error.message });
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ success: false, message: "Email and password are required.", });
+        }
+
+        const user = await service.findByEmail(email);
+        if (!user) 
+            return res.status(404).json({ success: false, message: "User not found." });
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) 
+            return res.status(401).json({ success: false, message: "Incorrect password." });
+
+        return res.status(200).json({ success: true,  message: "Login successful"});
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const get = async( req, res ) => {
+    try{
+        const response = await service.find();
+        res.status(200).json({ success: true, data: response});
+    }catch (error){
+        res.status(500).json({ success: false, message: error.message });
     }
 }
 
@@ -18,7 +58,7 @@ export const getById = async( req, res ) => {
         const response = await service.findOne(id);
         res.json( response );
     }catch (error){
-        res.status(500).send({ success: false, message: error.message });
+        res.status(500).json({ success: false, message: error.message });
     }
 }
 
@@ -29,7 +69,7 @@ export const update = async( req, res ) => {
         const response = await service.update(id, body);
         res.json( response );
     }catch (error){
-        res.status(500).send({ success: false, message: error.message });
+        res.status(500).json({ success: false, message: error.message });
     }
 }
 
@@ -39,6 +79,6 @@ export const _delete = async( req, res ) => {
         const response = await service.delete(id);
         res.json( response );
     }catch (error){
-        res.status(500).send({ success: false, message: error.message });
+        res.status(500).json({ success: false, message: error.message });
     }
 }

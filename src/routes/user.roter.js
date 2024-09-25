@@ -1,11 +1,19 @@
+import { get, create, getById, update, _delete, login } from '../controllers/user.controller.js';
+import { SingUpCheck, validateRequest, encryptPassword } from '../middleware/user.validator.js';
 import express from "express";
-import { create, getById, update, _delete } from '../controllers/user.controller.js';
 
 const router = express.Router();
 
 router
+    .get('/', get)
     .get('/:id', getById)
-    .post('/', create)
+    .post('/login', login)
+    .post('/', 
+        SingUpCheck, 
+        validateRequest,
+        encryptPassword,
+        create,
+    )
     .put('/:id', update)
     .delete('/:id', _delete)
 
