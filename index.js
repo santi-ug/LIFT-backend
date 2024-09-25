@@ -2,9 +2,16 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import express from "express";
+import routerApi from "./src/routes/index.js";
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const port = process.env.PORT || 5001;
 
 // run db config
 
@@ -21,6 +28,8 @@ app.get("/", (req, res) => {
 	res.json("Hello World");
 });
 
-app.listen(process.env.PORT, () => {
-	console.log(`Server is running on port ${process.env.PORT}`);
+routerApi(app);
+
+app.listen(port, () => {
+	console.log("Server is running on port ", port);
 });
