@@ -3,10 +3,6 @@ import { Model, DataTypes } from 'sequelize';
 const USER_TABLE = 'users';
 
 class User extends Model {
-    static associate(models) {
-        // Asociaciones con otros modelos aquí
-    }
-
     static config(sequelize) {
         return {
             sequelize,
@@ -25,23 +21,20 @@ const UserSchema = {
         type: DataTypes.INTEGER,
     },
 
-    username: {
+    name: {
         allowNull: false,
         type: DataTypes.STRING,
-        field:'name'
     },
 
     email: {
         allowNull: false,
         type: DataTypes.STRING,
         unique: true,
-        field:'email'
     },
 
     password: {
         allowNull: false,
         type: DataTypes.STRING,
-        field:'password'
     },
 };
 

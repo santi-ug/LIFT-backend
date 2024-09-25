@@ -4,6 +4,7 @@ const service = new UserService();
 
 export const create = async( req, res ) => {
     try{
+        const { name, email, password } = req.body;
         const response = await service.create(req.body);
         res.json({ success: true, data: response});
     }catch (error){
