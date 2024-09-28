@@ -2,12 +2,13 @@ import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 
 export const SingUpCheck = [ 
-    body('email').trim().not().isEmpty()
-    .withMessage ('this field is required').isEmail().withMessage('please enter a valid email address'),
+    body('email').trim().not().notEmpty()
+    .withMessage ('this field is required').toLowerCase().isEmail().withMessage('please enter a valid email address').isLength({max: 50}), 
 
-    body('name').trim().not().isEmpty().isString().withMessage('please enter only letters').isLength({min: 4, max: 20}), 
+    body('name').trim().not().matches(" ").withMessage('No spaces allowed in the name')
+    .toLowerCase().notEmpty().isString().withMessage('please enter only letters').isLength({min: 4, max: 20}), 
 
-    body('password').trim().not().isEmpty().isLength({ min: 8}), 
+    body('password').trim().not().notEmpty().isLength({ min: 8, max: 50}), 
 ]
 
 export const validateRequest = (req, res, next) => {
