@@ -3,7 +3,7 @@ import UserService from "../services/user.service.js";
 
 const service = new UserService();
 
-export const create = async (req, res) => {
+export const register = async (req, res) => {
 	try {
 		const { name, email, password } = req.body;
 

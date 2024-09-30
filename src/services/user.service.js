@@ -1,4 +1,4 @@
-import models from "../lib/sequelize.js";
+import models from "../database/db.js";
 
 class UserService {
 	constructor() {}
