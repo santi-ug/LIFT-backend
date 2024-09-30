@@ -11,7 +11,7 @@ import {
 	encryptPassword,
 	SingUpCheck,
 	validateRequest,
-} from "../middleware/user.validator.js";
+} from "../middlewares/user.validator.js";
 
 const router = express.Router();
 
