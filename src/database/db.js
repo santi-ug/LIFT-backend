@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import config from "../config/config.js";
-import setupModels from "./../db/models/index.js";
+import setupModels from "../models/index.js";
 
 const sequelize = new Sequelize(
 	config.dbName,
@@ -25,6 +25,7 @@ const sequelize = new Sequelize(
 	}
 );
 
+// sequelize.sync({ force: false });
 setupModels(sequelize);
 const models = sequelize.models;
 

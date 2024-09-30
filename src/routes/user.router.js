@@ -1,10 +1,10 @@
 import express from "express";
 import {
 	_delete,
-	create,
 	get,
 	getById,
 	login,
+	register,
 	update,
 } from "../controllers/user.controller.js";
 import {
@@ -19,7 +19,7 @@ router
 	.get("/", get)
 	.get("/:id", getById)
 	.post("/login", login)
-	.post("/", SingUpCheck, validateRequest, encryptPassword, create)
+	.post("/register", SingUpCheck, validateRequest, encryptPassword, register)
 	.put("/:id", update)
 	.delete("/:id", _delete);
 

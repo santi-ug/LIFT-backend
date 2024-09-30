@@ -1,7 +1,7 @@
-import { User, UserSchema } from './users.js';
+import { User, UserSchema } from "./User.js";
 
-function setupModels(sequelize){
-    User.init(UserSchema, User.config(sequelize));
+function setupModels(sequelize) {
+	User.init(UserSchema, User.config(sequelize));
 }
 
 export default setupModels;
