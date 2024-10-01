@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import jwt from 'jsonwebtoken';
 import UserService from "../services/user.service.js";
 
 const service = new UserService();
@@ -43,7 +44,12 @@ export const login = async (req, res) => {
 				.status(401)
 				.json({ success: false, message: "Incorrect password." });
 
-		return res.status(200).json({ success: true, message: "Login successful" });
+		const token = jwt.sign(
+			{ userId: user.id, email: user.email }, 
+			process.env.JWT_SECRET
+		);
+
+		return res.status(200).json({ success: true, message: "Login successful", token });
 	} catch (error) {
 		res.status(500).json({ success: false, message: error.message });
 	}
@@ -60,9 +66,10 @@ export const get = async (req, res) => {
 
 export const getById = async (req, res) => {
 	try {
-		const { id } = req.params;
-		const response = await service.findOne(id);
-		res.json(response);
+		const { userId } = req.user;
+		console.log(req.user);
+		const response = await service.findOne(userId);
+		res.json({ success: true, user: response});
 	} catch (error) {
 		res.status(500).json({ success: false, message: error.message });
 	}
