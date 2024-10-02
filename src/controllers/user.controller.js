@@ -17,7 +17,13 @@ export const register = async (req, res) => {
 		}
 
 		const response = await service.create({ name, email, password });
-		res.status(201).json({ success: true, data: response });
+
+		const token = jwt.sign(
+			{ userId: response.id, email: response.email }, 
+			process.env.JWT_SECRET
+		);
+
+		res.status(201).json({ success: true, data: response, token });
 	} catch (error) {
 		res.status(500).json({ success: false, message: error.message });
 	}
@@ -91,7 +97,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage }).single('avatar');
 
 export const updateImage = async (req, res) => {
-	console.log("aqui");
+	console.log("hola aqui");
 	upload(req, res, async function (err) 
 	{
         if (err instanceof multer.MulterError) {
@@ -108,7 +114,7 @@ export const updateImage = async (req, res) => {
 			const { userId } = req.user;
 			const avatar = req.file.buffer;
 
-			const response = await service.update(userId, avatar);
+			const response = await service.update(userId, {avatar});
 		
 			return res
 				.status(200)
