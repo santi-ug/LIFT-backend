@@ -1,3 +1,4 @@
+import multer from 'multer';
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 import UserService from "../services/user.service.js";
@@ -86,6 +87,48 @@ export const update = async (req, res) => {
 	}
 };
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage }).single('avatar');
+
+export const updateImage = async (req, res) => {
+	console.log("aqui");
+	upload(req, res, async function (err) 
+	{
+        if (err instanceof multer.MulterError) {
+            return res.status(500).json({ success: false, message: err.message });
+        } else if (err) {
+            return res.status(500).json({ success: false, message: err.message });
+        }
+
+		if (!req.file || !req.file.buffer) {
+            return res.status(400).json({ success: false, message: 'No file uploaded or file is invalid.' });
+        }
+
+		try {
+			const { userId } = req.user;
+			const avatar = req.file.buffer;
+
+			const response = await service.update(userId, avatar);
+		
+			return res
+				.status(200)
+				.json({ success: true, message: 'Profile image updated successfully', 
+					user:{
+						id: response.id,
+						name: response.name,
+						email: response.email,
+						avatar: response.avatar.toString('base64'), 
+						createdAt: response.createdAt,
+						updatedAt: response.updatedAt
+					}
+				});
+			
+		} catch (error) {
+			res.status(500).json({ success: false, message: error.message });
+		}
+	})
+}
+
 export const _delete = async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -93,5 +136,22 @@ export const _delete = async (req, res) => {
 		res.json(response);
 	} catch (error) {
 		res.status(500).json({ success: false, message: error.message });
+	}
+};
+
+export const logout = async (req, res) => {
+
+	try {
+		const decoded = req.user;
+	
+		if (!decoded) {
+			return res.status(401).json({ success: false, message: 'Access denied, token missing!' });
+		}
+		
+		req.session = null;
+    	res.status(200).json({ success: true, message: 'Sesión cerrada con éxito' });
+	
+	} catch (error) {
+	  	res.status(500).json({ success: false, message: error.message });
 	}
 };

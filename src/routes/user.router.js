@@ -4,16 +4,17 @@ import {
 	get,
 	getById,
 	login,
+	logout,
 	register,
 	update,
-	getById_test,
+	updateImage,
 } from "../controllers/user.controller.js";
 import {
 	encryptPassword,
 	SingUpCheck,
 	validateRequest,
 	SingInCheck, 
-	getByToken, 
+	getByToken,
 } from "../middlewares/user.validator.js";
 
 const router = express.Router();
@@ -23,7 +24,7 @@ router
 	.get("/me", getByToken, getById)
 	.post("/login", SingInCheck, validateRequest, login)
 	.post("/register", SingUpCheck, validateRequest, encryptPassword, register)
-	.put("/:id", update)
-	.delete("/:id", _delete);
+	.put("/me", getByToken, updateImage)
+	.post("/logout", getByToken, logout)
 
 export default router;

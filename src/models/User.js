@@ -37,6 +37,11 @@ const UserSchema = {
 		allowNull: false,
 		type: DataTypes.STRING,
 	},
+
+	avatar: {
+		allowNull: true, 
+		type: DataTypes.BLOB('long'),
+	},
 };
 
 export { User, UserSchema };
