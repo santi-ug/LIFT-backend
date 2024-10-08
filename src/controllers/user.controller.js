@@ -84,10 +84,11 @@ export const getById = async (req, res) => {
 
 export const update = async (req, res) => {
 	try {
-		const { id } = req.params;
-		const body = req.body;
-		const response = await service.update(id, body);
-		res.json(response);
+		const { userId } = req.user;
+		const { name, email, password } = req.body;
+
+		const response = await service.update(userId, { name, email, password });
+		res.status(200).json({ success: true, data: response });
 	} catch (error) {
 		res.status(500).json({ success: false, message: error.message });
 	}

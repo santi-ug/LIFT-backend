@@ -24,7 +24,8 @@ router
 	.get("/me", getByToken, getById)
 	.post("/login", SingInCheck, validateRequest, login)
 	.post("/register", SingUpCheck, validateRequest, encryptPassword, register)
-	.put("/me", getByToken, updateImage)
+	.put("/myImage", getByToken, updateImage)
 	.post("/logout", getByToken, logout)
+	.put("/me", getByToken, encryptPassword, update)
 
 export default router;

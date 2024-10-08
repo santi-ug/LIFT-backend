@@ -24,6 +24,7 @@ class UserService {
 	}
 
 	async update(id, data) {
+		console.log("hola", id, data)
 		const model = await this.findOne(id);
 
 		if (!model) {
