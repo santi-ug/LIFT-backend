@@ -24,7 +24,13 @@ class UserService {
 	}
 
 	async update(id, data) {
+		console.log("hola", id, data);
 		const model = await this.findOne(id);
+
+		if (!model) {
+			throw new Error("User not found");
+		}
+
 		const res = await model.update(data);
 		return res;
 	}
