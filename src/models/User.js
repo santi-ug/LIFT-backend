@@ -1,8 +1,19 @@
 import { DataTypes, Model } from "sequelize";
+import { BiometricHistory } from "./BiometricHistory.js"; // Import the BiometricHistory model
 
 const USER_TABLE = "users";
 
 class User extends Model {
+	static associate(models) {
+		// A User can have many BiometricHistories
+		this.hasMany(models.BiometricHistory, {
+			as: "biometricHistories",
+			foreignKey: {
+				name: "user_id",
+			},
+		});
+	}
+
 	static config(sequelize) {
 		return {
 			sequelize,

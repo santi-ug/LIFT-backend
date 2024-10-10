@@ -10,12 +10,15 @@ const sequelize = new Sequelize(
 		host: config.dbHost,
 		dialect: "postgres",
 		operationsAliases: false,
-		dialectOptions: {
-			ssl: {
-				require: true, // Make sure SSL is used
-				rejectUnauthorized: false, // To avoid issues with self-signed certificates
-			},
-		},
+
+		// UNCOMMENT THE LINES BELOW IF USING AWS DB
+		// dialectOptions: {
+		// 	ssl: {
+		// 		require: true, // Make sure SSL is used
+		// 		rejectUnauthorized: false, // To avoid issues with self-signed certificates
+		// 	},
+		// },
+
 		pool: {
 			max: 5,
 			min: 0,
@@ -25,7 +28,7 @@ const sequelize = new Sequelize(
 	}
 );
 
-// sequelize.sync({ force: false });
+sequelize.sync({ force: false });
 setupModels(sequelize);
 const models = sequelize.models;
 
