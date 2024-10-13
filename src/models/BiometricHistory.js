@@ -43,7 +43,7 @@ const BiometricHistorySchema = {
 		type: DataTypes.FLOAT,
 	},
 
-	imc: {
+	bmi: {
 		allowNull: false,
 		type: DataTypes.FLOAT,
 	},

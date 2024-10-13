@@ -75,7 +75,7 @@ export const get = async (req, res) => {
 
 export const getById = async (req, res) => {
 	try {
-		const { userId } = req.user;
+		const { userId } = req.user.id;
 		console.log(req.user);
 		const response = await service.findOne(userId);
 		res.json({ success: true, user: response });
@@ -86,7 +86,7 @@ export const getById = async (req, res) => {
 
 export const update = async (req, res) => {
 	try {
-		const { userId } = req.user;
+		const { userId } = req.user.id;
 		const { name, email, password } = req.body;
 
 		const response = await service.update(userId, { name, email, password });
@@ -109,16 +109,14 @@ export const updateImage = async (req, res) => {
 		}
 
 		if (!req.file || !req.file.buffer) {
-			return res
-				.status(400)
-				.json({
-					success: false,
-					message: "No file uploaded or file is invalid.",
-				});
+			return res.status(400).json({
+				success: false,
+				message: "No file uploaded or file is invalid.",
+			});
 		}
 
 		try {
-			const { userId } = req.user;
+			const { userId } = req.user.id;
 			const avatar = req.file.buffer;
 
 			const response = await service.update(userId, { avatar });
@@ -153,7 +151,7 @@ export const _delete = async (req, res) => {
 
 export const logout = async (req, res) => {
 	try {
-		const decoded = req.user;
+		const decoded = req.user.id;
 
 		if (!decoded) {
 			return res
