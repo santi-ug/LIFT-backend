@@ -11,6 +11,14 @@ class Workout extends Model {
 				name: "user_id",
 			},
 		});
+
+		// Each Workout has many Activities
+		this.hasMany(models.Activity, {
+			as: "activities",
+			foreignKey: {
+				name: "workout_id",
+			},
+		});
 	}
 
 	static config(sequelize) {

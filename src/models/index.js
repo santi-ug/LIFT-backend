@@ -1,3 +1,4 @@
+import { Activity, ActivitySchema } from "./Activity.js";
 import {
 	BiometricHistory,
 	BiometricHistorySchema,
@@ -12,10 +13,12 @@ function setupModels(sequelize) {
 		BiometricHistory.config(sequelize)
 	);
 	Workout.init(WorkoutSchema, Workout.config(sequelize));
+	Activity.init(ActivitySchema, Activity.config(sequelize));
 
 	User.associate(sequelize.models);
 	BiometricHistory.associate(sequelize.models);
 	Workout.associate(sequelize.models);
+	Activity.associate(sequelize.models);
 }
 
 export default setupModels;
