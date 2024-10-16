@@ -1,10 +1,10 @@
 import { DataTypes, Model } from "sequelize";
 
-const BIOMETRIC_HISTORY_TABLE = "biometric_histories";
+const WORKOUT_TABLE = "workouts";
 
-class BiometricHistory extends Model {
+class Workout extends Model {
 	static associate(models) {
-		// Each BiometricHistory belongs to a User (foreign key: user_id)
+		// Each Workout belongs to a User (foreign key: user_id)
 		this.belongsTo(models.User, {
 			as: "user",
 			foreignKey: {
@@ -16,47 +16,33 @@ class BiometricHistory extends Model {
 	static config(sequelize) {
 		return {
 			sequelize,
-			tableName: BIOMETRIC_HISTORY_TABLE,
-			modelName: "BiometricHistory",
+			tableName: WORKOUT_TABLE,
+			modelName: "Workout",
 			timestamps: true,
 			underscored: true,
 		};
 	}
 }
 
-const BiometricHistorySchema = {
+const WorkoutSchema = {
 	id: {
 		allowNull: false,
 		autoIncrement: true,
 		primaryKey: true,
 		type: DataTypes.INTEGER,
 	},
-
-	weight: {
+	title: {
 		allowNull: false,
-		type: DataTypes.FLOAT,
+		type: DataTypes.STRING,
 	},
-
-	height: {
+	notes: {
 		allowNull: false,
-		type: DataTypes.FLOAT,
+		type: DataTypes.STRING,
 	},
-
-	bmi: {
-		allowNull: false,
-		type: DataTypes.FLOAT,
-	},
-
-	fat_percentage: {
-		allowNull: false,
-		type: DataTypes.FLOAT,
-	},
-
 	date: {
 		allowNull: false,
 		type: DataTypes.DATE,
 	},
-
 	user_id: {
 		allowNull: false,
 		type: DataTypes.INTEGER,
@@ -67,6 +53,22 @@ const BiometricHistorySchema = {
 		onUpdate: "CASCADE",
 		onDelete: "SET NULL", // Optional, can be adjusted as needed
 	},
+	start_time: {
+		allowNull: false,
+		type: DataTypes.DATE,
+	},
+	end_time: {
+		allowNull: false,
+		type: DataTypes.DATE,
+	},
+	duration: {
+		allowNull: false,
+		type: DataTypes.INTEGER,
+	},
+	total_sets: {
+		allowNull: false,
+		type: DataTypes.INTEGER,
+	},
 };
 
-export { BiometricHistory, BiometricHistorySchema };
+export { Workout, WorkoutSchema };
