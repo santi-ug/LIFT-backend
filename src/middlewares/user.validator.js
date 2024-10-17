@@ -57,7 +57,6 @@ export const getByToken = async (req, res, next) => {
 		// Get token from headers
 		const authHeader = req.headers["authorization"];
 		const token = authHeader ? authHeader.split(" ")[1] : null;
-		console.log("Token:", token);
 
 		if (!token) {
 			return res
@@ -70,19 +69,15 @@ export const getByToken = async (req, res, next) => {
 		if (!decoded) {
 			return res.status(401).json({ message: "Invalid token." });
 		}
-		console.log("Decoded token:", decoded);
 
 		// Find the user associated with the token
 		const user = await User.findByPk(decoded.userId); // Assumes JWT contains the userId
-		console.log("User:", user);
 		if (!user) {
 			return res.status(404).json({ message: "User not found." });
 		}
 
 		// Attach the user object to the request
 		req.user = user;
-
-		// req.user = decoded;
 
 		next();
 	} catch (error) {
