@@ -1,44 +1,37 @@
 import { DataTypes, Model } from "sequelize";
 
-const ACTIVITY_TABLE = "activities";
+const VARIATION_TABLE = "variations";
 
-class Activity extends Model {
+class Variation extends Model {
 	static associate(models) {
-		// Activity belongs to a Workout
-		this.belongsTo(models.Workout, {
-			as: "workout",
+		// Variation belongs to both a Set and an Exercise
+		this.belongsTo(models.Set, {
+			as: "set",
 			foreignKey: {
-				name: "workout_id",
+				name: "set_id",
 			},
 		});
 
-		// Activity can either be a single exercise or multiple sets
 		this.belongsTo(models.Exercise, {
-			as: "singleExercise",
+			as: "exercise",
 			foreignKey: {
 				name: "exercise_id",
 			},
-		});
-
-		// Activity can have multiple sets
-		this.hasMany(models.Set, {
-			as: "sets",
-			foreignKey: "activity_id",
 		});
 	}
 
 	static config(sequelize) {
 		return {
 			sequelize,
-			tableName: ACTIVITY_TABLE,
-			modelName: "Activity",
+			tableName: VARIATION_TABLE,
+			modelName: "Variation",
 			timestamps: true,
 			underscored: true,
 		};
 	}
 }
 
-const ActivitySchema = {
+const VariationSchema = {
 	id: {
 		allowNull: false,
 		autoIncrement: true,
@@ -49,22 +42,18 @@ const ActivitySchema = {
 		allowNull: false,
 		type: DataTypes.STRING,
 	},
-	order_number: {
-		allowNull: false,
-		type: DataTypes.INTEGER,
-	},
-	notes: {
+	date: {
 		allowNull: true,
-		type: DataTypes.STRING,
+		type: DataTypes.DATE,
 	},
-	is_single_exercise: {
+	is_superset_variation: {
 		allowNull: false,
 		type: DataTypes.BOOLEAN,
 	},
-	workout_id: {
+	set_id: {
 		type: DataTypes.INTEGER,
 		references: {
-			model: "workouts",
+			model: "sets",
 			key: "id",
 		},
 		onUpdate: "CASCADE",
@@ -81,4 +70,4 @@ const ActivitySchema = {
 	},
 };
 
-export { Activity, ActivitySchema };
+export { Variation, VariationSchema };
