@@ -1,5 +1,4 @@
 import { Exercise } from "../models/Exercise.js";
-import { Variation } from "../models/Variation.js";
 import ExerciseService from "../services/exercise.service.js";
 
 const service = new ExerciseService();

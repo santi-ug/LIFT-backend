@@ -51,6 +51,11 @@ const WorkoutSchema = {
 		allowNull: false,
 		type: DataTypes.DATE,
 	},
+	draft: {
+		allowNull: false,
+		type: DataTypes.BOOLEAN,
+		defaultValue: true,
+	},
 	user_id: {
 		allowNull: false,
 		type: DataTypes.INTEGER,

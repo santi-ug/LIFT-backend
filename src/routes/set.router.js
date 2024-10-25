@@ -26,4 +26,7 @@ router
 	.put("/:setId", getByToken, updateSet) // Update a specific set by ID
 	.delete("/:setId", getByToken, deleteSet); // Delete a specific set by ID
 
+// .get(/)
+// .get(/:exerciseId)
+
 export default router;

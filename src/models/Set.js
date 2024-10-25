@@ -12,16 +12,12 @@ class Set extends Model {
 			},
 		});
 
-		// A Set can contain multiple exercises
-		this.hasMany(models.Exercise, {
-			as: "exercises",
-			foreignKey: "set_id",
-		});
-
-		// A Set (including supersets) can have variations
-		this.hasMany(models.Variation, {
-			as: "variations",
-			foreignKey: "set_id",
+		// A Set can contain one or multiple exercises
+		this.belongsTo(models.Exercise, {
+			as: "exercise",
+			foreignKey: {
+				name: "exercise_id",
+			},
 		});
 	}
 
@@ -44,27 +40,63 @@ const SetSchema = {
 		type: DataTypes.INTEGER,
 	},
 	reps: {
-		allowNull: true,
 		type: DataTypes.INTEGER,
+		allowNull: false,
 	},
 	time: {
-		allowNull: true,
 		type: DataTypes.TIME,
+		allowNull: true,
 	},
 	weight: {
+		type: DataTypes.FLOAT,
 		allowNull: true,
-		type: DataTypes.DOUBLE,
-	},
-	weight_unit: {
-		allowNull: true,
-		type: DataTypes.STRING,
 	},
 	is_superset: {
-		allowNull: false,
 		type: DataTypes.BOOLEAN,
+		defaultValue: false,
+	},
+	rpe: {
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	},
+	rir: {
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	},
+	completed: {
+		type: DataTypes.BOOLEAN,
+		defaultValue: false,
+	},
+	notes: {
+		type: DataTypes.STRING,
+		allowNull: true,
+	},
+	order_number: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	},
+	order_dropset_number: {
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	},
+	rest_time: {
+		type: DataTypes.TIME,
+		allowNull: true,
+	},
+	type: {
+		type: DataTypes.ENUM,
+		values: ["warmup", "dropset", "set"],
+		validate: {
+			isIn: {
+				args: [["warmup", "dropset", "set"]],
+				msg: "Type must be one of 'warmup', 'dropset', or 'set'",
+			},
+		},
+		allowNull: false,
 	},
 	activity_id: {
 		type: DataTypes.INTEGER,
+		allowNull: true,
 		references: {
 			model: "activities",
 			key: "id",

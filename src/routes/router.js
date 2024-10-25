@@ -4,7 +4,6 @@ import biometricHistoryRouter from "./biometrichistory.router.js";
 import exerciseRouter from "./exercise.router.js";
 import setRouter from "./set.router.js";
 import userRouter from "./user.router.js";
-import variationRouter from "./variation.router.js";
 import workoutRouter from "./workout.router.js";
 
 function routerApi(app) {
@@ -20,14 +19,7 @@ function routerApi(app) {
 		"/workouts/:workoutId/activities/:activityId/exercises/:exerciseId/sets",
 		setRouter
 	);
-	router.use(
-		"/workouts/:workoutId/activities/:activityId/exercises",
-		exerciseRouter
-	);
-	router.use(
-		"/workouts/:workoutId/activities/:activityId/exercises/:exerciseId/variations",
-		variationRouter
-	);
+	router.use("/exercises", exerciseRouter);
 }
 
 export default routerApi;

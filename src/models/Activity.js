@@ -61,6 +61,10 @@ const ActivitySchema = {
 		allowNull: false,
 		type: DataTypes.BOOLEAN,
 	},
+	variation: {
+		allowNull: true,
+		type: DataTypes.STRING,
+	},
 	workout_id: {
 		type: DataTypes.INTEGER,
 		references: {
