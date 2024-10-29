@@ -136,11 +136,39 @@ export const updateImage = async (req, res) => {
 	})
 }
 
+export const removeImage = async (req, res) => {
+    try {
+        const { userId } = req.user;
+
+        const response = await service.update(userId, { avatar: null });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Profile image removed successfully',
+            user: {
+                id: response.id,
+                name: response.name,
+                email: response.email,
+                avatar: null, 
+                createdAt: response.createdAt,
+                updatedAt: response.updatedAt
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 export const _delete = async (req, res) => {
 	try {
-		const { id } = req.params;
-		const response = await service.delete(id);
-		res.json(response);
+		const { userId } = req.user;
+	
+		if (!userId) {
+			return res.status(401).json({ success: false, message: 'Access denied, token missing!' });
+		}
+
+		const response = await service.delete(userId);
+		res.status(200).json({ success: true, data: response });
 	} catch (error) {
 		res.status(500).json({ success: false, message: error.message });
 	}

@@ -37,8 +37,13 @@ class UserService {
 
 	async delete(id) {
 		const model = await this.findOne(id);
-		await model.destroy();
-		return { deleted: true };
+
+		if (!model) {
+			throw new Error('User not found');
+		}
+
+		const res = await model.destroy();
+		return res;
 	}
 }
 
