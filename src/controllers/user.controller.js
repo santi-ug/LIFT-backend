@@ -77,6 +77,7 @@ export const getById = async (req, res) => {
 	try {
 		const userId = req.user.id;
 		const response = await service.findOne(userId);
+		console.log(response);
 
 		res.json({ success: true, user: response });
 	} catch (error) {
