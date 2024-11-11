@@ -28,7 +28,7 @@ const sequelize = new Sequelize(
 	}
 );
 
-sequelize.sync({ force: false });
+// sequelize.sync({ force: false });
 setupModels(sequelize);
 const models = sequelize.models;
 

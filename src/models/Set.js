@@ -13,11 +13,9 @@ class Set extends Model {
 		});
 
 		// A Set can contain one or multiple exercises
-		this.belongsTo(models.Exercise, {
-			as: "exercise",
-			foreignKey: {
-				name: "exercise_id",
-			},
+		this.hasMany(models.Exercise, {
+			as: "exercises",
+			foreignKey: "set_id",
 		});
 	}
 

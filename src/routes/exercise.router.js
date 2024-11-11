@@ -1,21 +1,26 @@
 import express from "express";
 import {
-	createExercise,
-	deleteExercise,
-	getExercise,
-	getExercisesBySet,
-	updateExercise,
+  createExercise,
+  deleteExercise,
+  getAllExercises,
+  getExercise,
+  getExercisesBySet,
+  updateExercise,
 } from "../controllers/exercise.controller.js";
 import { getByToken } from "../middlewares/user.validator.js";
 
-const router = express.Router({ mergeParams: true }); // Allows access to activityId and setId
+const router = express.Router(); 
 
-// All routes pass through the getByToken middleware
 router
-	.post("/", getByToken, createExercise) // Create a new exercise for a set
-	.get("/", getByToken, getExercisesBySet) // Get all exercises for a specific set
-	.get("/:exerciseId", getByToken, getExercise) // Get a specific exercise by ID
-	.put("/:exerciseId", getByToken, updateExercise) // Update a specific exercise by ID
-	.delete("/:exerciseId", getByToken, deleteExercise); // Delete a specific exercise by ID
+  .post("/exercises", getByToken, createExercise) 
+  .get("/exercises", getByToken, getAllExercises) 
+  .get("/exercises/:exerciseId", getByToken, getExercise) 
+  .put("/exercises/:exerciseId", getByToken, updateExercise) 
+  .delete("/exercises/:exerciseId", getByToken, deleteExercise); 
+
+// Rutas para ejercicios dentro de un conjunto (setId específico)
+router
+  .get("/set/:setId/exercises", getByToken, getExercisesBySet) // Obtener todos los ejercicios para un set
+  .get("/set/:setId/exercises/:exerciseId", getByToken, getExercise); // Obtener un ejercicio específico dentro de un set
 
 export default router;

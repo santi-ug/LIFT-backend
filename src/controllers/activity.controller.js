@@ -9,9 +9,10 @@ const service = new ActivityService();
 export const getAllByUserFromWorkout = async (req, res) => {
 	try {
 		const workout_id = req.params.workoutId;
+
 		const activities = await Activity.findAll({
 			where: {
-				workout_id: workout_id,
+				workout_id,
 			},
 			include: [
 				{
@@ -20,19 +21,21 @@ export const getAllByUserFromWorkout = async (req, res) => {
 					include: [
 						{
 							model: Exercise,
-							as: "exercises",
+							as: "exercises", // Cambia a "exercise" para que coincida con el alias en el modelo Set
 						},
 					],
 				},
 				{
 					model: Exercise,
-					as: "singleExercise",
+					as: "singleExercise", // Si se está usando un solo ejercicio
+					required: false,
 				},
 			],
 		});
 
 		res.status(200).json(activities);
 	} catch (error) {
+		console.error("Error retrieving activities:", error);
 		res.status(500).json({ message: "Error retrieving activities", error });
 	}
 };
@@ -147,7 +150,8 @@ export const create = async (req, res) => {
 
 		res.status(201).json(activity);
 	} catch (error) {
-		res.status(500).json({ message: "Error creating activity", error });
+		console.error("Error creating activity:", error.message || error);
+		res.status(500).json({ message: "Error creating activity", error: error.message || error });
 	}
 };
 

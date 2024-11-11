@@ -5,6 +5,10 @@ const EXERCISE_TABLE = "exercises";
 class Exercise extends Model {
 	static associate(models) {
 		// Each Exercise can have multiple Variations
+		this.belongsTo(models.Set, {
+			as: "set",
+			foreignKey: "set_id",
+		});
 	}
 
 	static config(sequelize) {
@@ -32,6 +36,17 @@ const ExerciseSchema = {
 	exercise_data: {
 		allowNull: false,
 		type: DataTypes.JSONB,
+	},
+	set_id: {
+		type: DataTypes.INTEGER,
+
+		references: {
+			model: "sets",
+			key: "id",
+		},
+		
+		onUpdate: "CASCADE",
+		onDelete: "SET NULL",
 	},
 };
 

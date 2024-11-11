@@ -28,13 +28,23 @@ export const getExercisesBySet = async (req, res) => {
 		const set_id = req.params.setId;
 		const exercises = await Exercise.findAll({
 			where: { set_id },
-			include: [{ model: Variation, as: "variations" }],
+			//include: [{ model: Variation, as: "variations" }],
 		});
 
 		res.status(200).json(exercises);
 	} catch (error) {
 		res.status(500).json({ message: "Error retrieving exercises", error });
 	}
+};
+
+export const getAllExercises = async (req, res) => {
+    try {
+        const exercises = await Exercise.findAll();
+
+        res.status(200).json(exercises);
+    } catch (error) {
+        res.status(500).json({ message: "Error retrieving exercises", error });
+    }
 };
 
 // Create a new exercise (using the service)
@@ -59,8 +69,9 @@ export const createExercise = async (req, res) => {
 
 		res.status(201).json(newExercise);
 	} catch (error) {
-		res.status(500).json({ message: "Error creating exercise", error });
-	}
+		console.error("Error al crear el ejercicio:", error);  // Log para el error
+        res.status(500).json({ message: "Error creating exercise", error: error.message || error });
+    }
 };
 
 // Update a specific exercise by ID

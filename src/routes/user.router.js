@@ -6,6 +6,7 @@ import {
 	login,
 	logout,
 	register,
+	removeImage,
 	update,
 	updateImage,
 } from "../controllers/user.controller.js";
@@ -25,7 +26,9 @@ router
 	.post("/login", SingInCheck, validateRequest, login)
 	.post("/register", SingUpCheck, validateRequest, encryptPassword, register)
 	.put("/myImage", getByToken, updateImage)
+	.delete("/myImage", getByToken, removeImage)
 	.post("/logout", getByToken, logout)
-	.put("/me", getByToken, encryptPassword, update);
+	.put("/me", getByToken, encryptPassword, update)
+	.delete("/me", getByToken, _delete)
 
 export default router;

@@ -87,7 +87,7 @@ export const getById = async (req, res) => {
 
 export const update = async (req, res) => {
 	try {
-		const { userId } = req.user.id;
+		const userId = req.user.id;
 		const { name, email, password } = req.body;
 
 		const response = await service.update(userId, { name, email, password });
@@ -117,7 +117,7 @@ export const updateImage = async (req, res) => {
 		}
 
 		try {
-			const { userId } = req.user;
+			const userId = req.user.id;
 			const avatar = req.file.buffer;
 
 			const response = await service.update(userId, { avatar });
@@ -142,7 +142,7 @@ export const updateImage = async (req, res) => {
 
 export const removeImage = async (req, res) => {
 	try {
-		const { userId } = req.user;
+		const userId = req.user.id;
 
 		const response = await service.update(userId, { avatar: null });
 
@@ -165,7 +165,7 @@ export const removeImage = async (req, res) => {
 
 export const _delete = async (req, res) => {
 	try {
-		const { userId } = req.user;
+		const userId = req.user.id;
 
 		if (!userId) {
 			return res

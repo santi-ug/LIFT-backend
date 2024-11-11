@@ -19,7 +19,7 @@ function routerApi(app) {
 		"/workouts/:workoutId/activities/:activityId/exercises/:exerciseId/sets",
 		setRouter
 	);
-	router.use("/exercises", exerciseRouter);
+	router.use("/", exerciseRouter);
 }
 
 export default routerApi;
