@@ -6,15 +6,21 @@ const service = new BiometricHistoryService();
 // Get all biometric histories for the authenticated user
 export const getAllByUser = async (req, res) => {
 	try {
-		const user_id = req.user.id; // Assuming the user is attached to the request in getByToken middleware
+		const user_id = req.user.id; 
 		const biometricHistories = await BiometricHistory.findAll({
-			where: { user_id }, // Find all histories belonging to the authenticated user
+			where: { user_id }, 
 		});
-		res.status(200).json(biometricHistories);
+		console.log(biometricHistories);
+		res.status(200).json({
+			success: true,
+            data: biometricHistories,
+		});
 	} catch (error) {
-		res
-			.status(500)
-			.json({ message: "Error retrieving biometric histories", error });
+		res.status(500).json({
+            success: false,
+            message: "Error retrieving biometric histories",
+            error: error.message,
+        });
 	}
 };
 
