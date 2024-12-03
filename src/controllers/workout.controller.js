@@ -35,35 +35,38 @@ export const getByIdForUser = async (req, res) => {
 
 // Create a new workout for the authenticated user
 export const create = async (req, res) => {
+	console.log(req.user.id);
+	console.log(req.body);
+
 	try {
 		const user_id = req.user.id;
 		const { title, notes, date, start_time, end_time, duration, total_sets } =
 			req.body;
 
-		if (!title || typeof title !== "string") {
-			throw new Error("Invalid title");
-		}
-		if (!notes || typeof notes !== "string") {
-			throw new Error("Invalid notes");
-		}
-		if (!date || isNaN(Date.parse(date))) {
-			throw new Error("Invalid date");
-		}
-		if (!start_time || isNaN(Date.parse(start_time))) {
-			throw new Error("Invalid start time");
-		}
-		if (!end_time || isNaN(Date.parse(end_time))) {
-			throw new Error("Invalid end time");
-		}
-		if (!duration || typeof duration !== "number") {
-			throw new Error("Invalid duration");
-		}
-		if (!total_sets || typeof total_sets !== "number") {
-			throw new Error("Invalid total sets");
-		}
-		if (!user_id) {
-			throw new Error("User ID not found");
-		}
+		// if (!title || typeof title !== "string") {
+		// 	throw new Error("Invalid title");
+		// }
+		// if (!notes || typeof notes !== "string") {
+		// 	throw new Error("Invalid notes");
+		// }
+		// if (!date || isNaN(Date.parse(date))) {
+		// 	throw new Error("Invalid date");
+		// }
+		// if (!start_time || isNaN(Date.parse(start_time))) {
+		// 	throw new Error("Invalid start time");
+		// }
+		// if (!end_time || isNaN(Date.parse(end_time))) {
+		// 	throw new Error("Invalid end time");
+		// }
+		// if (!duration || typeof duration !== "number") {
+		// 	throw new Error("Invalid duration");
+		// }
+		// if (!total_sets || typeof total_sets !== "number") {
+		// 	throw new Error("Invalid total sets");
+		// }
+		// if (!user_id) {
+		// 	throw new Error("User ID not found");
+		// }
 
 		const workout = await service.create({
 			title,
