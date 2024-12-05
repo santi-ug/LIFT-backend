@@ -10,11 +10,17 @@ export const getAllByUser = async (req, res) => {
 		const biometricHistories = await BiometricHistory.findAll({
 			where: { user_id }, // Find all histories belonging to the authenticated user
 		});
-		res.status(200).json(biometricHistories);
+		console.log(biometricHistories);
+		res.status(200).json({
+			success: true,
+            data: biometricHistories,
+		});
 	} catch (error) {
-		res
-			.status(500)
-			.json({ message: "Error retrieving biometric histories", error });
+		res.status(500).json({
+            success: false,
+            message: "Error retrieving biometric histories",
+            error: error.message,
+        });
 	}
 };
 

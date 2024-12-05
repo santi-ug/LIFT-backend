@@ -10,9 +10,18 @@ export const getAllByUser = async (req, res) => {
 		const workouts = await Workout.findAll({
 			where: { user_id },
 		});
-		res.status(200).json(workouts);
+		
+		console.log(workouts);
+		res.status(200).json({
+			success: true,
+            data: workouts,
+		});
 	} catch (error) {
-		res.stats(500).json({ message: "Error retrieving workouts", error });
+		res.status(500).json({
+            success: false,
+            message: "Error retrieving workouts",
+            error: error.message,
+        });
 	}
 };
 
